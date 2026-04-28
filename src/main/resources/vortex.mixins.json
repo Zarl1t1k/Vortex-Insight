@@ -1,12 +1,4 @@
-{
-  "required": true,
-  "minVersion": "0.8",
-  "package": "net.vortex.insight.mixin",
-  "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "PlayerEntityMixin"
+    "PlayerEntityMixin",
+    "LightmapMixin" 
   ],
-  "injectors": {
-    "defaultRequire": 1
-  }
-}
