@@ -10,9 +10,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class PlayerEntityMixin {
     @Inject(method = "tick", at = @At("HEAD"))
     private void onTick(CallbackInfo info) {
+        // Превращаем 'this' (текущий объект) в игрока, чтобы управлять им
         PlayerEntity player = (PlayerEntity) (Object) this;
-        // Авто-бег: если игрок движется вперед и не крадется
-        if (player.forwardSpeed > 0 && !player.isSneaking()) {
+
+        // Условие для умного спринта:
+        // 1. Игрок нажимает кнопку движения вперед (forwardSpeed > 0)
+        // 2. Игрок не крадется (isSneaking)
+        // 3. Игрок не под водой (чтобы не багал заплыв)
+        if (player.forwardSpeed > 0 && !player.isSneaking() && !player.isSubmergedInWater()) {
             player.setSprinting(true);
         }
     }
