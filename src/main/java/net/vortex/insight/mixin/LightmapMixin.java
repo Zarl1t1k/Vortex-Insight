@@ -10,7 +10,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class LightmapMixin {
     @Inject(method = "getNightVisionStrength", at = @At("HEAD"), cancellable = true)
     private static void onGetNightVisionStrength(CallbackInfoReturnable<Float> info) {
-        // Мы заставляем игру думать, что у нас всегда эффект ночного зрения на 100%
         info.setReturnValue(1.0f);
     }
 }
