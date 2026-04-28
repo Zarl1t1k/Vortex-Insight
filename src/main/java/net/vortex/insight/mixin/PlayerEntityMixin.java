@@ -4,13 +4,16 @@ import net.minecraft.entity.player.PlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(PlayerEntity.class)
-public class PlayerEntityMixin {
-    
-    @Inject(method = "getAbilities().getWalkSpeed()", at = @At("HEAD"), cancellable = true)
-    private void onGetSpeed(CallbackInfoReturnable<Float> info) {
-        // Здесь в будущем будет код для SpeedHack
+public abstract class PlayerEntityMixin {
+    @Inject(method = "tick", at = @At("HEAD"))
+    private void onTick(CallbackInfo info) {
+        PlayerEntity player = (PlayerEntity) (Object) this;
+        // Авто-бег: если игрок движется вперед и не крадется
+        if (player.forwardSpeed > 0 && !player.isSneaking()) {
+            player.setSprinting(true);
+        }
     }
 }
